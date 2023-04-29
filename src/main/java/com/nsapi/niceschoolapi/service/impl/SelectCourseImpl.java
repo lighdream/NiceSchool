@@ -5,7 +5,9 @@ import com.nsapi.niceschoolapi.entity.SelectCourseVo;
 import com.nsapi.niceschoolapi.entity.StuCourseDB;
 import com.nsapi.niceschoolapi.entity.StudentDB;
 import com.nsapi.niceschoolapi.mapper.SelectCourseMapper;
+import com.nsapi.niceschoolapi.mapper.StudentMapper;
 import com.nsapi.niceschoolapi.service.SelectCourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import java.util.List;
 public class SelectCourseImpl implements SelectCourseService {
 @Resource
 private SelectCourseMapper selectCourseMapper;
+
 
     //查询开设课程
     @Override
@@ -48,6 +51,12 @@ private SelectCourseMapper selectCourseMapper;
         return selectCourseMapper.updateCount(stuCourseDB);
     }
 
+    @Override
+    public List<SelectCourseVo> selectStudentCourseList(Integer sid) {
+        SelectCourseVo selectCourseVo = new SelectCourseVo();
+//        selectCourseVo.setStuid(String.valueOf(sid));
+        return selectCourseMapper.sel(selectCourseVo);
+    }
 
 
 }

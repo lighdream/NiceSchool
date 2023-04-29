@@ -5,9 +5,17 @@
 <mapper namespace="com.nsapi.niceschoolapi.mapper.SelectCourseMapper">
    <!-- 查询开设课程 -->
    <select id="sel" resultType="SelectCourseVo" parameterType="SelectCourseVo">
-       select a.cid,a.cname,a.ccredit,b.ctname,a.studytype,d.tname,
-       a.cselcount,a.cmaxcount,g.wname,
-       h.timeinterval,h.schname from
+       select ANY_VALUE(a.cid) cid,
+       a.cname,
+       ANY_VALUE(a.ccredit) ccredit,
+       ANY_VALUE(b.ctname) ctname,
+       ANY_VALUE(a.studytype) studytype,
+       ANY_VALUE(d.tname) tname,
+       ANY_VALUE(a.cselcount) cselcount,
+       ANY_VALUE(a.cmaxcount) cmaxcount,
+       ANY_VALUE(g.wname) wname,
+       ANY_VALUE(h.timeinterval) timeinterval,
+       ANY_VALUE(h.schname) schname  from
        course a
        INNER JOIN course_type b on a.ctid=b.ctid
        INNER JOIN tch_course c on a.cid=c.cid
@@ -18,7 +26,9 @@
        INNER JOIN grade j on i.mid=j.mid
        INNER JOIN classinfo k on j.gid=k.gid
        INNER JOIN student l on k.classid=l.classid
-       and l.stuid=#{stuid}
+       <if test="stuid != null and stuid != ''">
+           and l.stuid=#{stuid}
+       </if>
        <where>
            <if test="ctname != null and ctname !=''">
                and  ctname =#{ctname}
@@ -47,4 +57,8 @@
     <update id="updateCount" parameterType="StuCourseDB">
        update course set cselcount=cselcount+1 where cid=#{cid}
     </update>
+
+<!--   <select id="selStudentCourseList" resultType="com.nsapi.niceschoolapi.entity.SelectCourseVo">-->
+
+<!--    </select>-->
 </mapper>

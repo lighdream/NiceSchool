@@ -20,4 +20,6 @@ public interface SelectCourseService {
     public int addCourse(StuCourseDB stuCourseDB);
     //修改可选人数
     public int updateCount(StuCourseDB stuCourseDB);
+
+    List<SelectCourseVo> selectStudentCourseList(Integer sid);
 }

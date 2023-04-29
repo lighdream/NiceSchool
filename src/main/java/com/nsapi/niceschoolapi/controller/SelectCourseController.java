@@ -45,40 +45,40 @@ public class SelectCourseController {
         tableData.put("data", pageInfo.getList());
         return tableData;
 }
-//查询课程类别
-@ResponseBody
-@RequestMapping("seltype")
-public Object selType(){
-    List<CourseTypeDB> selType = selectCourseService.selType();
-    Map<String, Object> tableData = new HashMap<String, Object>();
-    //这是layui要求返回的json数据格式
-    tableData.put("code", 0);
-    tableData.put("data", selType);
-    return tableData;
-}
-//查询是否有该课程
-@ResponseBody
-@RequestMapping("selcourse")
-public Object selcourse(StuCourseDB stuCourseDB, CourseDB courseDB, SelectCourseVo selectCourseVo){
-    String msg="";
-    if(courseDB.getCselcount().equals(courseDB.getCmaxcount())){
-        msg="该课程已选满";
+    //查询课程类别
+    @ResponseBody
+    @RequestMapping("seltype")
+    public Object selType(){
+        List<CourseTypeDB> selType = selectCourseService.selType();
+        Map<String, Object> tableData = new HashMap<String, Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("data", selType);
+        return tableData;
     }
-    else {
-    int num = selectCourseService.selCourse(stuCourseDB);
-   if(num==1){
-      msg="您已选择过该课程";
-   }
-   else{
-       int addnum = selectCourseService.addCourse(stuCourseDB);
-       if(addnum==1){
-           int updatenum = selectCourseService.updateCount(stuCourseDB);
-           if(updatenum==1){
-               msg="已选择";
+    //查询是否有该课程
+    @ResponseBody
+    @RequestMapping("selcourse")
+    public Object selcourse(StuCourseDB stuCourseDB, CourseDB courseDB, SelectCourseVo selectCourseVo){
+        String msg="";
+        if(courseDB.getCselcount().equals(courseDB.getCmaxcount())){
+            msg="该课程已选满";
+        }
+        else {
+        int num = selectCourseService.selCourse(stuCourseDB);
+       if(num==1){
+          msg="您已选择过该课程";
+       }
+       else{
+           int addnum = selectCourseService.addCourse(stuCourseDB);
+           if(addnum==1){
+               int updatenum = selectCourseService.updateCount(stuCourseDB);
+               if(updatenum==1){
+                   msg="已选择";
+               }
            }
        }
-   }
+        }
+        return  msg;
     }
-    return  msg;
-}
 }
