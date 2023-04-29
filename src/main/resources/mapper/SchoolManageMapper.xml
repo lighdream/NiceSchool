@@ -125,27 +125,47 @@
     <!--**************************************************************条件查询***********************************************************************-->
     <!--条件查询classname-->
     <select id="tjSelClass" resultType="SchoolManageVO">
-        select classid,classname from classinfo where is_del=0 group by classname order by classid
+        select classid,classname from classinfo where classname in
+        (select classname from classinfo where is_del=0 group by classname)
+        order by classid
     </select>
     <!--条件查询department-->
     <select id="tjSelDpm" resultType="SchoolManageVO">
-        select did,dname from department where is_del=0 group by dname order by did
+        select did,dname from department  where dname in
+        (select dname from department where is_del=0 group by dname)
+        order by did
     </select>
     <!--条件查询major-->
     <select id="tjSelMajor" resultType="SchoolManageVO">
-        select mid,mname from major where is_del=0
-        <if test="dname != null">
-            and did in(select did from department where dname=#{dname} and is_del=0)
+<!--        select mid,mname from major where is_del=0-->
+<!--        <if test="dname != null">-->
+<!--            and did in(select did from department where dname=#{dname} and is_del=0)-->
+<!--        </if>-->
+<!--         group by mname order by mid-->
+        SELECT mid,mname FROM major WHERE mname IN (
+        select mname from major
+        where is_del=0
+        <if test="dname != null and dname!=''">
+        and did in(select did from department where dname=#{dname} and is_del=0)
         </if>
-         group by mname order by mid
+        group by mname
+        ) ORDER BY mid
     </select>
     <!--条件查询grade-->
     <select id="tjSelGrade" resultType="SchoolManageVO">
-        select gid,gname from grade where is_del=0
-        <if test="mname != null">
-            and mid in(select mid from major where mname=#{mname} and is_del=0)
+<!--        select gid,gname from grade where is_del=0-->
+<!--        <if test="mname != null">-->
+<!--            and mid in(select mid from major where mname=#{mname} and is_del=0)-->
+<!--        </if>-->
+<!--         group by gname order by gid-->
+        select gid,gname from grade where gname in (
+        select gname from grade  where is_del=0
+        <if test="mname != null and mname!='' ">
+        and mid in(select mid from major where mname=#{mname} and is_del=0)
         </if>
-         group by gname order by gid
+        group by gname
+        )
+        order by gid
     </select>
     <!--**************************************************************重复验证***********************************************************************-->
     <select id="checkOneDpm" resultType="Integer">

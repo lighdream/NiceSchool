@@ -15,7 +15,12 @@
     </select>
     <!--查询全部教师姓名-->
     <select id="findAllTchByName" resultType="TeacherDB">
-        select * from teacher where is_del=0 group by tname order by tid
+        select * from teacher
+        where tname in (
+            select tname from teacher where
+                is_del=0 group by tname
+        )
+        order by tid
     </select>
     <!--通过专业查询全部课程-->
     <select id="findAllCourseByMajorName" resultType="TchCourseVO">
