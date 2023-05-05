@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nsapi.niceschoolapi.common.config.MySysUser;
 import com.nsapi.niceschoolapi.entity.*;
+import com.nsapi.niceschoolapi.service.SelCourseManageService;
 import com.nsapi.niceschoolapi.service.SelectCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +22,20 @@ import java.util.Map;
 public class SelectCourseController {
     @Autowired
     private SelectCourseService selectCourseService;
+
     @RequestMapping("sel")
     public String sel(Model model){
         String stuid= MySysUser.loginName();
         StudentDB sid= selectCourseService.selStudentid(stuid);
         model.addAttribute("sid",sid);
         return "view/student/SelectCourse";
+    }
+    @RequestMapping("list")
+    public String list(Model model){
+        String stuid= MySysUser.loginName();
+        StudentDB sid= selectCourseService.selStudentid(stuid);
+        model.addAttribute("sid",sid);
+        return "view/student/listCourse";
     }
     //查询开设课程
     @RequestMapping("selectCourse")
@@ -81,4 +91,23 @@ public class SelectCourseController {
         }
         return  msg;
     }
+
+    @ResponseBody
+    @RequestMapping("getList")
+    public Object selStudentCourse(Integer page, Integer limit,SelectCourseVo selectCourseVo){
+        selectCourseVo.setStuid(MySysUser.loginName());
+        PageHelper.startPage(page, limit);
+        List<SelectCourseVo> listAll = selectCourseService.selectTeacherCourseList(selectCourseVo.getStuid());
+        PageInfo pageInfo = new PageInfo(listAll);
+        Map<String, Object> tableData = new HashMap<String, Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        //tableData.put("msg", "");
+        //将全部数据的条数作为count传给前台（一共多少条）
+        tableData.put("count", pageInfo.getTotal());
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", pageInfo.getList());
+        return tableData;
+    }
+
 }

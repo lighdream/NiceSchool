@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>线上选课</title>
+    <title>已选</title>
 
     <!--引入layui-->
     <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
@@ -59,7 +59,7 @@
         //渲染数据表格
         tableIns=table.render({
             elem: '#userTable'   //渲染的目标对象
-            ,url:'selectCourse' //数据接口
+            ,url:'getList' //数据接口
             ,title: '课程数据表'//数据导出来的标题
             ,toolbar:"#userToolBar"   //表格的工具条
 
@@ -71,29 +71,13 @@
                 [   //列表数据
                     {field:'cid', title:'ID',align:'center',width:"70",sort: true}
                     ,{field:'cname', title:'课程名字',align:'center',width:"150"}
-                    ,{field:'ccredit', title:'学分',align:'center',width:"70"}
-                    ,{field:'cstate', title:'状态',align:'center',width:"80",sort: true,
-                    templet:function(data){
-                        if(data.cstate==0){
-                            return "正常"
-                        }else{
-                            return "不可选"
-                        }
-                    }}
+                    // ,{field:'tname', title:'授课教师',align:'center',width:"70"}
                     ,{field:'ctname', title:'课程类型',align:'center',width:"100",sort: true}
                     ,{field:'studytype', title:'修学类型',align:'center',width:"100",sort: true}
                     ,{field:'cselcount', title:'已选人数',align:'center',width:"100",sort: true}
                     ,{field:'cmaxcount', title:'最大人数',align:'center',width:"100"}
-
-                    ,{fixed: '', title:'操作',align:'center',width:'200',templet:function(data){
-                        if (data.cmaxcount==data.cselcount){
-                            return '<a class="layui-btn layui-btn-disabled">选课人数已满</a>'
-                        }
-                        if (data.cstate==1){
-                            return '<a class="layui-btn layui-btn-disabled">不可选课</a>'
-                        }
-                        return  '<a class="layui-btn layui-btn-xs" lay-event="select">选课</a>'
-                    }}
+                    // ,{field:'wname', title:'星期',align:'center',width:"100"}
+                    // ,{field:'timeinterval', title:'时间',align:'center',width:"100"}
                 ]
             ]
         })

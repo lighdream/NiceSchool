@@ -58,7 +58,12 @@
        update course set cselcount=cselcount+1 where cid=#{cid}
     </update>
 
-<!--   <select id="selStudentCourseList" resultType="com.nsapi.niceschoolapi.entity.SelectCourseVo">-->
+   <select id="selectTeacherCourseList" resultType="com.nsapi.niceschoolapi.entity.SelectCourseVo">
+       select course.cid cid, course.cname cname,t.tname tname,course.studytype,ct.ctname ctname,course.cselcount,course.cmaxcount  from course
+       join course_type ct on ct.ctid = course.ctid
+       join tch_course tc on course.cid = tc.cid
+       join teacher t on tc.tid = t.tid
+       where t.tchid = #{tid}
+    </select>
 
-<!--    </select>-->
 </mapper>

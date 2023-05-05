@@ -82,6 +82,7 @@ public class TeacherController {
         Integer state = teacherDB.getTchstate();
         Integer tid = teacherDB.getTid();
         if(state == 1){
+            teacherDB.setIsDel(1);
             //  修改教师为离职状态并逻辑删除
             Integer deleteTeacher = deleteService.deleteTeacher(teacherDB);
             //  删除教师授课信息

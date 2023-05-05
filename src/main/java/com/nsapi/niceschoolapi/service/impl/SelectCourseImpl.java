@@ -52,10 +52,8 @@ private SelectCourseMapper selectCourseMapper;
     }
 
     @Override
-    public List<SelectCourseVo> selectStudentCourseList(Integer sid) {
-        SelectCourseVo selectCourseVo = new SelectCourseVo();
-//        selectCourseVo.setStuid(String.valueOf(sid));
-        return selectCourseMapper.sel(selectCourseVo);
+    public List<SelectCourseVo> selectTeacherCourseList(String sid) {
+       return selectCourseMapper.selectTeacherCourseList(sid);
     }
 
 

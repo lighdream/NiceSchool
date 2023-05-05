@@ -23,5 +23,5 @@ public interface SelectCourseMapper {
     //修改可选人数
     public int updateCount(StuCourseDB stuCourseDB);
 
-//    List<SelectCourseVo> selStudentCourseList(Integer sid);
+    List<SelectCourseVo> selectTeacherCourseList(String sid);
 }
