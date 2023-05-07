@@ -18,8 +18,8 @@
        ANY_VALUE(h.schname) schname  from
        course a
        INNER JOIN course_type b on a.ctid=b.ctid
-       INNER JOIN tch_course c on a.cid=c.cid
-       INNER JOIN teacher d on d.tid=c.tid
+       INNER JOIN tch_course c on a.cid=c.cid and c.is_del=0
+       INNER JOIN teacher d on d.tid=c.tid and d.is_del=0
        INNER JOIN weeks g on c.wid=g.wid
        INNER JOIN schedule h on c.schid=h.schid
        INNER JOIN major i on a.mid=i.mid
