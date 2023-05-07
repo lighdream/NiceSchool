@@ -29,5 +29,5 @@ hs_err_pid*
 replay_pid*
 
 *.iml
-#pom.xml
-#*.yml
+pom.xml
+*.yml
